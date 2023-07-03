@@ -1,12 +1,12 @@
 /*------------------
   UNASSIGN
-  @rota "[rotation]" unassign
+  @rota unassign
   Clears the assignment for a rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('unassign', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
       const rotationObj = await store.getRotation(rotation);

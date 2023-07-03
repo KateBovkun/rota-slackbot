@@ -119,14 +119,14 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": '```/remind [#channel] "@rota "[rotation]" assign the next user in the rotation using `@rota "[rotation]" assign next`" every Monday at 9am```'
+        "text": '```/remind [#channel] "@rota #{channel} assign the next user in the rotation using `@rota #{channel} assign next`" every Monday at 9am```'
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Note:* You can't _directly_ remind me to do something. For instance: `/remind @rota \"[rotation]\" message in 5 minutes` will _not_ work because <@slackbot> isn't allowed to send reminders to <@rota> — another _bot user_. When using `/remind`, you need to send the reminder _to a channel_. This ensures the message is delivered to the rotation's _assigned human user_."
+        "text": "*Note:* You can't _directly_ remind me to do something. For instance: `/remind @rota #{channel} message in 5 minutes` will _not_ work because <@slackbot> isn't allowed to send reminders to <@rota> — another _bot user_. When using `/remind`, you need to send the reminder _to a channel_. This ensures the message is delivered to the rotation's _assigned human user_."
       }
     },
     {
@@ -147,7 +147,7 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": '```/gator @rota "[rotation]" I need some help with task XYZ please!```'
+        "text": '```/gator @rota #{channel} I need some help with task XYZ please!```'
       }
     },
     {

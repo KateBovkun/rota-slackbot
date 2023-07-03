@@ -1,12 +1,12 @@
 /*------------------
   NEW
-  @rota new "[rotation-name]" [optional description]
+  @rota new [optional description]
   Creates a new rotation with description
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('new', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
     const description = pCmd.description;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {

@@ -3,51 +3,51 @@
 ------------------*/
 const utils = {
   regex: {
-    // @rota new "[new-rotation-name]" [optional description]
+    // @rota new [optional description]
     // Create a new rotation
-    new: /^<@(U[A-Z0-9]+?)> (new) "([a-z0-9\-]+?)"(.*)$/g,
-    // @rota "[rotation]" description [description]
+    new: /^<@(U[A-Z0-9]+?)> (new)(.*)$/g,
+    // @rota description [description]
     // Update description for an existing rotation
-    description: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (description)(.*)$/g,
-    // @rota "[rotation]" staff [@username, @username, @username]
+    description: /^<@(U[A-Z0-9]+?)> (description)(.*)$/g,
+    // @rota staff [@username, @username, @username]
     // Accepts a space-separated list of usernames to staff a rotation
     // List of mentions has to start with <@U and end with > but can contain spaces, commas, multiple user mentions
-    staff: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
-    // @rota "[rotation]" reset staff
+    staff: /^<@(U[A-Z0-9]+?)> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
+    // @rota reset staff
     // Removes rotation staff list
-    'reset staff': /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (reset staff)$/g,
+    'reset staff': /^<@(U[A-Z0-9]+?)> (reset staff)$/g,
     // Capture user ID only from
     // <@U03LKJ> or <@U0345|name>
     userID: /^<@([A-Z0-9]+?)[a-z|._\-]*?>$/g,
-    // @rota "[rotation]" assign [@username] [optional handoff message]
+    // @rota assign [@username] [optional handoff message]
     // Assigns a user to a rotation
-    assign: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
-    // @rota "[rotation]" assign next [optional handoff message]
+    assign: /^<@(U[A-Z0-9]+?)> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
+    // @rota assign next [optional handoff message]
     // Assigns a user to a rotation
-    'assign next': /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (assign next)(.*)$/g,
-    // @rota "[rotation]" who
+    'assign next': /^<@(U[A-Z0-9]+?)> (assign next)(.*)$/g,
+    // @rota #{channel} who
     // Responds stating who is on-call for a rotation
-    who: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (who)$/g,
-    // @rota "[rotation]" about
+    who: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (who)$/g,
+    // @rota #{channel} about
     // Responds with description and mention of on-call for a rotation
     // Sends ephemeral staff list (to save everyone's notifications)
-    about: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (about)$/g,
-    // @rota "[rotation]" unassign
+    about: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (about)$/g,
+    // @rota unassign
     // Unassigns rotation
-    unassign: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (unassign)$/g,
-    // @rota delete "[rotation]"
+    unassign: /^<@(U[A-Z0-9]+?)> (unassign)$/g,
+    // @rota delete
     // Removes the rotation completely
-    delete: /^<@(U[A-Z0-9]+?)> (delete) "([a-z0-9\-]+?)"$/g,
+    delete: /^<@(U[A-Z0-9]+?)> (delete)$/g,
     // @rota help
     // Post help messaging
     help: /^<@(U[A-Z0-9]+?)> (help)$/g,
     // @rota list
     // List all rotations in store
     list: /^<@(U[A-Z0-9]+?)> (list)$/g,
-    // @rota "[rotation]" any other message
+    // @rota #{channel} any other message
     // Message does not contain a command
     // Sends message text
-    message: /^<@(U[A-Z0-9]+?)> "([a-z0-9\-]+?)" (.*)$/g
+    message: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (.*)$/g
   },
   /**
    * Clean up message text so it can be tested / parsed
@@ -113,18 +113,16 @@ const utils = {
       // Rotation, command, usermention, freeform text
       if (cmd === 'assign') {
         return {
-          rotation: res[2],
-          command: res[3],
-          user: res[4],
-          handoff: res[5].trim()
+          command: res[2],
+          user: res[3],
+          handoff: res[4].trim()
         }
       }
       // Rotation, command, freeform text
       else if (cmd === 'assign next') {
         return {
-          rotation: res[2],
-          command: res[3],
-          handoff: res[4].trim()
+          command: res[2],
+          handoff: res[3].trim()
         }
       }
       // Rotation, command, list of space-separated usermentions
@@ -139,16 +137,14 @@ const utils = {
           return cleanArr || [];
         };
         return {
-          rotation: res[2],
-          command: res[3],
-          staff: getStaffArray(res[4])
+          command: res[2],
+          staff: getStaffArray(res[3])
         }
       }
       // Rotation, command, parameters
       else if (cmd === 'new') {
-        const description = res[4];
+        const description = res[3];
         return {
-          rotation: res[3],
           command: res[2],
           description: description ? description.trim() : '(_no description provided_)'
         };
@@ -156,20 +152,24 @@ const utils = {
       // Command, rotation
       else if (cmd === 'delete') {
         return {
-          rotation: res[3],
           command: res[2]
         };
       }
       // Rotation, command
       else if (cmd === 'description') {
         return {
-          rotation: res[2],
-          command: res[3],
-          description: res[4].trim()
+          command: res[2],
+          description: res[3].trim()
         };
       }
-      // Rotation, command
-      else if (cmd === 'about' || cmd === 'unassign' || cmd === 'who' || cmd === 'reset staff') {
+      // Command
+      else if (cmd === 'unassign' || cmd === 'reset staff') {
+        return {
+          command: res[2]
+        };
+      }
+      // Rotation Command
+      else if (cmd === 'about' || cmd === 'who') {
         return {
           rotation: res[2],
           command: res[3]

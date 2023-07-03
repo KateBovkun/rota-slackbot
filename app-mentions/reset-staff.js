@@ -1,12 +1,12 @@
 /*------------------
   RESET STAFF
-  @rota "[rotation]" reset staff
+  @rota reset staff
   Removes rotation staff
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('reset staff', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
       // If rotation exists, set staff to an empty array

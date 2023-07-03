@@ -1,12 +1,12 @@
 /*------------------
   DELETE
-  @rota delete "[rotation]"
+  @rota delete
   Deletes an existing rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('delete', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
       // If rotation exists, delete from store completely

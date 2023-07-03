@@ -1,12 +1,12 @@
 /*------------------
   DESCRIPTION
-  @rota "[rotation-name]" description [new description]
+  @rota description [new description]
   Updates the description for an existing rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('description', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
     const description = pCmd.description;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {

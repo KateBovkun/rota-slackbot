@@ -1,12 +1,12 @@
 /*------------------
   ASSIGN NEXT
-  @rota "[rotation]" assign next [handoff message]
+  @rota assign next [handoff message]
   Assigns next user in staff list to rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('assign next', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
     const handoffMsg = pCmd.handoff;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {

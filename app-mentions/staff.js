@@ -1,13 +1,13 @@
 /*------------------
   STAFF
-  @rota "[rotation-name]" staff [@user @user @user]
+  @rota staff [@user @user @user]
   Staffs a rotation by passing a space-separated list of users
   Also allows comma-separated lists; fairly robust against extra spaces/commas
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('staff', event, context);
-    const rotation = pCmd.rotation;
+    const rotation = ec.channelID;
     const staff = pCmd.staff;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
