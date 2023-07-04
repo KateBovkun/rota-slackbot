@@ -1,6 +1,6 @@
 /*------------------
   WHO
-  @rota #{channel} who
+  @goalie #{channel} who
   Reports who the assigned user is for a rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {

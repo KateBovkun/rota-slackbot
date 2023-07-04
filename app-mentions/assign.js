@@ -1,6 +1,6 @@
 /*------------------
   ASSIGN
-  @rota assign [@user] [handoff message]
+  @goalie assign [@user] [handoff message]
   Assigns a user to specified rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
@@ -15,7 +15,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       const save = await store.saveAssignment(rotation, usermention);
       // Confirm assignment in channel
       const result = await app.client.chat.postMessage(
-        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignConfirm(usermention, rotation))
+        utils.msgConfig(ec.botToken, ec.channelID, msgText.assignConfirm(usermention, rotation))
       );
       if (!!handoffMsg) {
         // Send DM to newly assigned user notifying them of the handoff message
@@ -35,7 +35,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
     } else {
       // If rotation doesn't exist, send message saying so
       const result = await app.client.chat.postMessage(
-        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignError(rotation))
+        utils.msgConfig(ec.botToken, ec.channelID, msgText.assignError(rotation))
       );
     }
   }

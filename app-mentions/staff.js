@@ -1,6 +1,6 @@
 /*------------------
   STAFF
-  @rota staff [@user @user @user]
+  @goalie staff [@user @user @user]
   Staffs a rotation by passing a space-separated list of users
   Also allows comma-separated lists; fairly robust against extra spaces/commas
 ------------------*/

@@ -3,48 +3,48 @@
 ------------------*/
 const utils = {
   regex: {
-    // @rota new [optional description]
+    // @goalie new [optional description]
     // Create a new rotation
     new: /^<@(U[A-Z0-9]+?)> (new)(.*)$/g,
-    // @rota description [description]
+    // @goalie description [description]
     // Update description for an existing rotation
     description: /^<@(U[A-Z0-9]+?)> (description)(.*)$/g,
-    // @rota staff [@username, @username, @username]
+    // @goalie staff [@username, @username, @username]
     // Accepts a space-separated list of usernames to staff a rotation
     // List of mentions has to start with <@U and end with > but can contain spaces, commas, multiple user mentions
     staff: /^<@(U[A-Z0-9]+?)> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
-    // @rota reset staff
+    // @goalie reset staff
     // Removes rotation staff list
     'reset staff': /^<@(U[A-Z0-9]+?)> (reset staff)$/g,
     // Capture user ID only from
     // <@U03LKJ> or <@U0345|name>
     userID: /^<@([A-Z0-9]+?)[a-z|._\-]*?>$/g,
-    // @rota assign [@username] [optional handoff message]
+    // @goalie assign [@username] [optional handoff message]
     // Assigns a user to a rotation
     assign: /^<@(U[A-Z0-9]+?)> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
-    // @rota assign next [optional handoff message]
+    // @goalie assign next [optional handoff message]
     // Assigns a user to a rotation
     'assign next': /^<@(U[A-Z0-9]+?)> (assign next)(.*)$/g,
-    // @rota #{channel} who
+    // @goalie #{channel} who
     // Responds stating who is on-call for a rotation
     who: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (who)$/g,
-    // @rota #{channel} about
+    // @goalie #{channel} about
     // Responds with description and mention of on-call for a rotation
     // Sends ephemeral staff list (to save everyone's notifications)
     about: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (about)$/g,
-    // @rota unassign
+    // @goalie unassign
     // Unassigns rotation
     unassign: /^<@(U[A-Z0-9]+?)> (unassign)$/g,
-    // @rota delete
+    // @goalie delete
     // Removes the rotation completely
     delete: /^<@(U[A-Z0-9]+?)> (delete)$/g,
-    // @rota help
+    // @goalie help
     // Post help messaging
     help: /^<@(U[A-Z0-9]+?)> (help)$/g,
-    // @rota list
+    // @goalie list
     // List all rotations in store
     list: /^<@(U[A-Z0-9]+?)> (list)$/g,
-    // @rota #{channel} any other message
+    // @goalie #{channel} any other message
     // Message does not contain a command
     // Sends message text
     message: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (.*)$/g
@@ -79,7 +79,7 @@ const utils = {
    */
   rotationInList(rotaname, list) {
     if (list && list.length) {
-      return list.filter(rotation => rotation.name === rotaname).length > 0;
+      return list.filter(rotation => rotation.channel === rotaname).length > 0;
     }
     return false;
   },
@@ -108,7 +108,7 @@ const utils = {
     const res = [...cleanText.matchAll(new RegExp(utils.regex[cmd]))][0];
 
     // Regex returned expected match appropriate for the command
-    // Command begins with rota bot mention
+    // Command begins with goalie bot mention
     if (res && res[1].includes(ct.botUserId)) {
       // Rotation, command, usermention, freeform text
       if (cmd === 'assign') {

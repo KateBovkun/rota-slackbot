@@ -1,6 +1,6 @@
 /*------------------
   ASSIGN NEXT
-  @rota assign next [handoff message]
+  @goalie assign next [handoff message]
   Assigns next user in staff list to rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
@@ -38,7 +38,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         const save = await store.saveAssignment(rotation, usermention);
         // Send message to the channel about updated assignment
         const result = await app.client.chat.postMessage(
-          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignConfirm(usermention, rotation))
+          utils.msgConfig(ec.botToken, ec.channelID, msgText.assignConfirm(usermention, rotation))
         );
         if (!!handoffMsg) {
           // There is a handoff message
@@ -59,13 +59,13 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       } else {
         // No staff list; cannot use "next"
         const result = await app.client.chat.postMessage(
-          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignNextError(rotation))
+          utils.msgConfig(ec.botToken, ec.channelID, msgText.assignNextError(rotation))
         );
       }
     } else {
       // If rotation doesn't exist, send message in channel
       const result = await app.client.chat.postMessage(
-        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignError(rotation))
+        utils.msgConfig(ec.botToken, ec.channelID, msgText.assignError(rotation))
       );
     }
   }

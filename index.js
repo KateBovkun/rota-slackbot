@@ -44,5 +44,5 @@ require('./app-mentions')(app, store);
 ------------------*/
 (async () => {
   await app.start(port);
-  console.log(`⚡️ Rota is running on ${port}!`);
+  console.log(`⚡️ Goalie is running on ${port}!`);
 })();

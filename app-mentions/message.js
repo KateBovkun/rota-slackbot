@@ -1,6 +1,6 @@
 /*------------------
   (MESSAGE)
-  @rota #{channel} free form message for on-call user
+  @goalie #{channel} free form message for on-call user
   Send message to on-call user via DM with link to channel
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
@@ -22,7 +22,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         );
         // Send message to the channel where help was requested notifying that assigned user was contacted
         const sendChannelMsg = await app.client.chat.postMessage(
-          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.confirmChannelMsg(rotation, ec.sentByUserID))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.confirmChannelMsg(rotation))
         );
       } else {
         // Rotation is not assigned; give instructions how to assign

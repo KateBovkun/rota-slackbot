@@ -1,6 +1,6 @@
 /*------------------
   UNASSIGN
-  @rota unassign
+  @goalie unassign
   Clears the assignment for a rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {

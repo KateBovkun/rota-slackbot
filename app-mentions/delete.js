@@ -1,6 +1,6 @@
 /*------------------
   DELETE
-  @rota delete
+  @goalie delete
   Deletes an existing rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {

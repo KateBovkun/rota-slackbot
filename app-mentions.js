@@ -59,59 +59,59 @@ const app_mentions = (app, store) => {
       !isUnassign &&
       !isDelete;
 
-    // @rota new [optional description]
+    // @goalie new [optional description]
     if (isNew) {
       cmdNew(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota description [new description]
+    // @goalie description [new description]
     else if (isDescription) {
       cmdDescription(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota staff [@user @user @user]
+    // @goalie staff [@user @user @user]
     else if (isStaff) {
       cmdStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota reset staff
+    // @goalie reset staff
     else if (isResetStaff) {
       cmdResetStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota delete
+    // @goalie delete
     else if (isDelete) {
       cmdDelete(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota #[channel] about
+    // @goalie #[channel] about
     else if (isAbout) {
       cmdAbout(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota assign [@user] [handoff message]
+    // @goalie assign [@user] [handoff message]
     else if (isAssign) {
       cmdAssign(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota assign next [handoff message]
+    // @goalie assign next [handoff message]
     else if (isAssignNext) {
       cmdAssignNext(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota #[channel] who
+    // @goalie #[channel] who
     else if (isWho) {
       cmdWho(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota unassign
+    // @goalie unassign
     else if (isUnassign) {
       cmdUnassign(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota list
+    // @goalie list
     else if (isList) {
       cmdList(app, ec, utils, msgText, errHandler);
     }
-    // @rota help
+    // @goalie help
     else if (isHelp) {
       cmdHelp(app, ec, utils, helpBlocks, msgText, errHandler);
     }
-    // @rota #[channel] free form message for a goalie
+    // @goalie #[channel] free form message for a goalie
     else if (isMessage) {
       cmdMessage(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota anything else
+    // @goalie anything else
     else {
       try {
         // console.log('Event: ', event, 'Clean Text: ', utils.cleanText(ec.text));

@@ -1,47 +1,47 @@
-# rota-slackbot
+# goalie-slackbot
 
-Rota is a Slack app + bot I wrote for internal company use to manage team rotations. This app was built with the [Bolt JavaScript Slack app framework](https://github.com/slackapi/bolt).
+Goalie is a Slack app + bot I modified for internal company use to manage team rotations. Original project can be found [here](https://github.com/kmaida/rota-slackbot). This app was built with the [Bolt JavaScript Slack app framework](https://github.com/slackapi/bolt).
 
 ## Commands
 
-* `@rota new [description]` creates a new rotation for the channel. Technically the description is optional, but everyone will benefit if you provide one.
-* `@rota delete` deletes the rotation completely (use with caution!).
-* `@rota description [new description]` updates the description for a rotation.
-* `@rota staff [@user1 @user2 @user3]` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
-* `@rota reset staff` clears a rotation's staff list (use with caution!).
-* `@rota assign [@user] [optional handoff message]` assigns someone to the rotation and, optionally, sends a DM to them with handoff information.
-* `@rota assign next [optional handoff message]` assigns the next person in the staff list to a rotation and, optionally, sends a DM to them with handoff information.
-* `@rota unassign` removes the current user assignment for a rotation.
-* `@rota #[channel] who` reports the name of a rotation's assigned user.
-* `@rota #[channel] about` displays the rotation's description and on-call user publicly, and displays the staff list only to the user who issued the commend (this is to prevent excessive notifications for everyone on staff).
-* `@rota #[channel] [message]` sends a direct message to the on-call user for the rotation, notifying them that your message needs attention.
-* `@rota list` displays a list of all currently known rotations.
-* `@rota help` shows how to use the bot.
+* `@goalie new [description]` creates a new rotation for the channel. Technically the description is optional, but everyone will benefit if you provide one.
+* `@goalie delete` deletes the rotation completely (use with caution!).
+* `@goalie description [new description]` updates the description for a rotation.
+* `@goalie staff [@user1 @user2 @user3]` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
+* `@goalie reset staff` clears a rotation's staff list (use with caution!).
+* `@goalie assign [@user] [optional handoff message]` assigns someone to the rotation and, optionally, sends a DM to them with handoff information.
+* `@goalie assign next [optional handoff message]` assigns the next person in the staff list to a rotation and, optionally, sends a DM to them with handoff information.
+* `@goalie unassign` removes the current user assignment for a rotation.
+* `@goalie #[channel] who` reports the name of a rotation's assigned user.
+* `@goalie #[channel] about` displays the rotation's description and on-call user publicly, and displays the staff list only to the user who issued the commend (this is to prevent excessive notifications for everyone on staff).
+* `@goalie #[channel] [message]` sends a direct message to the on-call user for the rotation, notifying them that your message needs attention.
+* `@goalie list` displays a list of all currently known rotations.
+* `@goalie help` shows how to use the bot.
 
 ## Tips
 
-Rota does **not** handle _message scheduling_ or _automate_ rotation assignments. But don't worry — since `@rota` is a bot and not slash commands, it plays well with others! Here are some ways you can use the `@rota` bot in conjunction with other Slack features / third party apps.
+Rota does **not** handle _message scheduling_ or _automate_ rotation assignments. But don't worry — since `@goalie` is a bot and not slash commands, it plays well with others! Here are some ways you can use the `@goalie` bot in conjunction with other Slack features / third party apps.
 
 ### Rotation Reminders
 
 You can set a recurring reminder with Slack's `/remind` slash command to remind a rotation's on-call user to assign the next person in the rotation at some regular interval. This must be done at the channel level. You must ensure that Rota has been added to the channel you're setting the reminder in, also. For example:
 
-_(With Rota present in a #channel)_
+_(With Goalie present in a #channel)_
 ```
-/remind #[channel] "@rota assign the next user in the rotation using `@rota assign next"` every Monday at 9am
+/remind #[channel] "@goalie assign the next user in the rotation using `@goalie assign next"` every Monday at 9am
 ```
 
 Use quotes as shown in the snippet above to avoid unexpected behavior.
 
-**Note:** You _can't_ directly remind the `@rota` _bot_ to do anything. For instance, `/remind @rota #[channel] some message in 5 minutes` will _not_ work because it will try to send a direct message to the _bot user_, not a rotation's _assigned human user_. Slack cannot do this, and it will tell you so. When using `/remind`, you need to set the reminder _in a channel_. Reminders come from Slackbot, and Rota and Slackbot can't talk to each other.
+**Note:** You _can't_ directly remind the `@goalie` _bot_ to do anything. For instance, `/remind @goalie #[channel] some message in 5 minutes` will _not_ work because it will try to send a direct message to the _bot user_, not a rotation's _assigned human user_. Slack cannot do this, and it will tell you so. When using `/remind`, you need to set the reminder _in a channel_. Reminders come from Slackbot, and Goalie and Slackbot can't talk to each other.
 
 ### Scheduling Messages
 
-You can schedule messages to be delivered later. This is useful in case the goalie user is outside of hours. This works with the built-in `/remind` slash task (similar to above). Schedule the message _in a channel_ that the `@rota` bot has been added to. Like so:
+You can schedule messages to be delivered later. This is useful in case the goalie user is outside of hours. This works with the built-in `/remind` slash task (similar to above). Schedule the message _in a channel_ that the `@goalie` bot has been added to. Like so:
 
 _(In a #channel)_
 ```
-/remind #[channel] "@rota #[channel] I need some help with task XYZ please"
+/remind #[channel] "@goalie #[channel] I need some help with task XYZ please"
 ```
 
 **Note:** Keep in mind that if you use `/remind`, the message will come from `@Slackbot`, _not from your username_. If you need the person on rotation to know the message was from _you_, either include your username in the reminder when you set it up, or use a third-party app that delivers the message later from your account (e.g., Gator does this).
@@ -54,9 +54,9 @@ _(In a #channel)_
 ### Slack App Initial Setup
 
 1. [Create a new Slack app](https://api.slack.com/apps/new).
-2. Name your app `rota` and select your preferred development Slack workspace.
+2. Name your app `goalie` and select your preferred development Slack workspace.
 3. In the **OAuth & Permissions** section, add "Bot Token Scopes" for `app_mentions:read`, `chat:write`, and `incoming-webhook`.
-4. Under **App Home**, make sure your bot and app's name are `rota`.
+4. Under **App Home**, make sure your bot and app's name are `goalie`.
   * Toggle on "Always Show My Bot as Online".
   * Enable the Home Tab.
   * Enable the Messages Tab.
@@ -72,7 +72,7 @@ _(In a #channel)_
 5. Click **Add a Different IP Address** and enter `0.0.0.0/0`. This allows connections from any IP (keep in mind you should ensure good authentication with this.)
 6. **Create a MongoDB User**. This is a _database user_, and these credentials will be used in your `MONGO_URI`. Enter a Username and use the button to Autogenerate Secure Password. Make note of the username and password, then click "Create MongoDB User" and then proceed to the next step.
 7. In **Choose a Connection Method**, select "Connect your application." Use `Node.js` as the driver with the latest version available. Then copy the "Connection String Only."
-8. In a text file or other secure place (such as a password manager), paste the copied connection string and _modify_ it to replace `<username>` and `<password>` with the credentials you just created in the previous step. Replace the database name (`test`) with a name of your choosing (e.g., `rota`).
+8. In a text file or other secure place (such as a password manager), paste the copied connection string and _modify_ it to replace `<username>` and `<password>` with the credentials you just created in the previous step. Replace the database name (`test`) with a name of your choosing (e.g., `goalie`).
 
 ### Code and Configuration Setup
 

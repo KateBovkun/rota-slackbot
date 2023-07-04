@@ -1,4 +1,4 @@
-const Rota = require('./Rota');
+const Goalie = require('./Goalie');
 
 /*------------------
   DATABASE / STORE
@@ -9,7 +9,7 @@ const store = {
    * @return {object[]} array of existing rotation objects
    */
   async getRotations() {
-    return Rota.find({}, (err, rotations) => {
+    return Goalie.find({}, (err, rotations) => {
       const arr = [];
       if (err) console.error(err.message);
       rotations.forEach(rotation => {
@@ -25,10 +25,10 @@ const store = {
    * @return {object} newly saved rotation
    */
   async newRotation(rotaname, description) {
-    return Rota.findOne({ name: rotaname }, (err) => {
+    return Goalie.findOne({ name: rotaname }, (err) => {
       if (err) console.error(err.message);
-      const rotation = new Rota({
-        name: rotaname,
+      const rotation = new Goalie({
+        channel: rotaname,
         description: description,
         assigned: null
       });
@@ -45,7 +45,7 @@ const store = {
    * @return {object} newly updated, saved rotation
    */
   async updateDescription(rotaname, description) {
-    return Rota.findOne({ name: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.description = description;
       rotation.save((err) => {
@@ -61,7 +61,7 @@ const store = {
    * 
    */
   async saveStaff(rotaname, staffArr) {
-    return Rota.findOne({ name: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.staff = staffArr;
       rotation.save((err) => {
@@ -77,7 +77,7 @@ const store = {
    * @return {object} saved rotation with new assignment
    */
   async saveAssignment(rotaname, usermention) {
-    return Rota.findOne({ name: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.assigned = usermention;
       rotation.save((err) => {
@@ -92,7 +92,7 @@ const store = {
    * @return {object} rotation object
    */
   async getRotation(rotaname) {
-    return Rota.findOne({ name: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       return rotation;
     });
@@ -102,7 +102,7 @@ const store = {
    * @param {string} rotaname rotation name
    */
   async deleteRotation(rotaname) {
-    return Rota.findOne({ name: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.remove(err => {
         if (err) console.error(err.message);

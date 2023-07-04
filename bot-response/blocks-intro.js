@@ -13,7 +13,7 @@ const introBlocks = [
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": ':speech_balloon: *If you need help with a rotation, post a message to any channel I\'ve been added to and mention `@rota #{channel} [your message]`*. The person on duty for the rotation will be notified!'
+      "text": ':speech_balloon: *If you need help with a rotation, post a message to any channel I\'ve been added to and mention `@goalie #{channel} [your message]`*. The person on duty for the rotation will be notified!'
     }
   },
   {

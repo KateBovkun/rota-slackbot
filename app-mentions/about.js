@@ -1,6 +1,6 @@
 /*------------------
   ABOUT
-  @rota #{channel} about
+  @goalie #{channel} about
   Provides description and assignment for specified rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {

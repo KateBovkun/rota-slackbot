@@ -1,6 +1,6 @@
 /*------------------
   DESCRIPTION
-  @rota description [new description]
+  @goalie description [new description]
   Updates the description for an existing rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
