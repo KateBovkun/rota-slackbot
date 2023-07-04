@@ -22,25 +22,18 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         );
         // Send message to the channel where help was requested notifying that assigned user was contacted
         const sendChannelMsg = await app.client.chat.postMessage(
-          utils.msgConfig(ec.botToken, ec.channelID, msgText.confirmChannelMsg(rotation, ec.sentByUserID))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.confirmChannelMsg(rotation, ec.sentByUserID))
         );
-        if (!!ec.sentByUserID && ec.sentByUserID !== 'USLACKBOT') {
-          // Send ephemeral message (only visible to sender) telling them what to do if urgent
-          // Do nothing if coming from a slackbot
-          const sendEphemeralMsg = await app.client.chat.postEphemeral(
-            utils.msgConfigEph(ec.botToken, ec.channelID, ec.sentByUserID, msgText.confirmEphemeralMsg(rotation))
-          );
-        }
       } else {
         // Rotation is not assigned; give instructions how to assign
         const result = await app.client.chat.postMessage(
-          utils.msgConfig(ec.botToken, ec.channelID, msgText.nobodyAssigned(rotation))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.nobodyAssigned(rotation))
         );
       }
     } else {
       // Rotation doesn't exist
       const result = await app.client.chat.postMessage(
-        utils.msgConfig(ec.botToken, ec.channelID, msgText.msgError(rotation))
+        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.msgError(rotation))
       );
     }
   }

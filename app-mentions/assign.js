@@ -15,7 +15,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       const save = await store.saveAssignment(rotation, usermention);
       // Confirm assignment in channel
       const result = await app.client.chat.postMessage(
-        utils.msgConfig(ec.botToken, ec.channelID, msgText.assignConfirm(usermention, rotation))
+        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignConfirm(usermention, rotation))
       );
       if (!!handoffMsg) {
         // Send DM to newly assigned user notifying them of the handoff message
@@ -28,14 +28,14 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         if (!!ec.sentByUserID && ec.sentByUserID !== 'USLACKBOT') {
           // Send ephemeral message in channel notifying assigner their handoff message has been delivered via DM
           const result = await app.client.chat.postEphemeral(
-            utils.msgConfigEph(ec.botToken, ec.channelID, ec.sentByUserID, msgText.assignHandoffConfirm(usermention, rotation))
+            utils.msgConfigEph(ec.botToken, ec.channelID, ec.sentByUserID, ec.ts, msgText.assignHandoffConfirm(usermention, rotation))
           );
         }
       }
     } else {
       // If rotation doesn't exist, send message saying so
       const result = await app.client.chat.postMessage(
-        utils.msgConfig(ec.botToken, ec.channelID, msgText.assignError(rotation))
+        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.assignError(rotation))
       );
     }
   }

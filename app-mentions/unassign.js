@@ -15,18 +15,18 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         // If someone is currently assigned, clear
         const save = await store.saveAssignment(rotation, null);
         const result = await app.client.chat.postMessage(
-          utils.msgConfig(ec.botToken, ec.channelID, msgText.unassignConfirm(rotation))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.unassignConfirm(rotation))
         );
       } else {
         // If nobody is assigned
         const result = await app.client.chat.postMessage(
-          utils.msgConfig(ec.botToken, ec.channelID, msgText.unassignNoAssignment(rotation))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.unassignNoAssignment(rotation))
         );
       }
     } else {
       // If rotation doesn't exist, send message saying nothing changed
       const result = await app.client.chat.postMessage(
-        utils.msgConfig(ec.botToken, ec.channelID, msgText.unassignError(rotation))
+        utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.unassignError(rotation))
       );
     }
   }

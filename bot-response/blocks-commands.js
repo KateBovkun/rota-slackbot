@@ -13,7 +13,7 @@ const commandsBlocks = [
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": ':sparkles: `@rota new [rotation description]` *creates a new rotation*. `rotation-name` can contain _only_ lowercase letters, numbers, and hyphens.'
+      "text": ':sparkles: `@rota new [rotation description]` *creates a new rotation*.'
     }
   },
   {
@@ -90,7 +90,7 @@ const commandsBlocks = [
     "type": "section",
     "text": {
       "type": "mrkdwn",
-      "text": ':phone: `@rota #{channel} [message]` *contacts a rotation\'s on-call user*. I send a DM telling them your message needs attention. They\'ll follow up at their earliest convenience. _(Kindly keep in mind they may be busy or outside working hours.)_'
+      "text": ':phone: `@rota #{channel} [message]` *contacts a rotation\'s goalie*. I send a DM telling them your message needs attention. They\'ll follow up at their earliest convenience. _(Kindly keep in mind they may be busy or outside working hours.)_'
     }
   },
   {

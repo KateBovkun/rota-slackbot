@@ -36,7 +36,7 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": `:bellhop_bell: *<@${userID}>'s Active On-Call Rotations:*`
+        "text": `:bellhop_bell: *<@${userID}>'s Active Rotations:*`
       }
     },
     {
@@ -112,7 +112,7 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "You can manage rotation assignments however you want. For example, you can set a recurring reminder with Slack's `/remind` to prompt a rotation's on-call user to assign the next person on staff at a regular interval. Like so:"
+        "text": "You can manage rotation assignments however you want. For example, you can set a recurring reminder with Slack's `/remind` to prompt a rotation's goalie to assign the next person on staff at a regular interval. Like so:"
       }
     },
     {

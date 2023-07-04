@@ -29,7 +29,8 @@ const app_mentions = (app, store) => {
       sentByUserID: event.user,                   // ID of user who sent the message
       channelID: event.channel,                   // channel ID
       botToken: context.botToken,                 // bot access token
-      rotaList: await store.getRotations()        // rotations in db
+      rotaList: await store.getRotations(),       // rotations in db
+      ts: event.ts
     }
     // Decision logic establishing how to respond to mentions
     const isNew = await utils.isCmd('new', ec.text);
@@ -58,43 +59,43 @@ const app_mentions = (app, store) => {
       !isUnassign &&
       !isDelete;
 
-    // @rota new "[rotation]" [optional description]
+    // @rota new [optional description]
     if (isNew) {
       cmdNew(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" description [new description]
+    // @rota description [new description]
     else if (isDescription) {
       cmdDescription(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" staff [@user @user @user]
+    // @rota staff [@user @user @user]
     else if (isStaff) {
       cmdStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" reset staff
+    // @rota reset staff
     else if (isResetStaff) {
       cmdResetStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" delete
+    // @rota delete
     else if (isDelete) {
       cmdDelete(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" about
+    // @rota #[channel] about
     else if (isAbout) {
       cmdAbout(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" assign [@user] [handoff message]
+    // @rota assign [@user] [handoff message]
     else if (isAssign) {
       cmdAssign(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" assign next [handoff message]
+    // @rota assign next [handoff message]
     else if (isAssignNext) {
       cmdAssignNext(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" who
+    // @rota #[channel] who
     else if (isWho) {
       cmdWho(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @rota "[rotation]" unassign
+    // @rota unassign
     else if (isUnassign) {
       cmdUnassign(app, event, context, ec, utils, store, msgText, errHandler);
     }
@@ -106,7 +107,7 @@ const app_mentions = (app, store) => {
     else if (isHelp) {
       cmdHelp(app, ec, utils, helpBlocks, msgText, errHandler);
     }
-    // @rota "[rotation]" free form message for on-call user
+    // @rota #[channel] free form message for a goalie
     else if (isMessage) {
       cmdMessage(app, event, context, ec, utils, store, msgText, errHandler);
     }
@@ -115,7 +116,7 @@ const app_mentions = (app, store) => {
       try {
         // console.log('Event: ', event, 'Clean Text: ', utils.cleanText(ec.text));
         const result = await app.client.chat.postMessage(
-          utils.msgConfig(ec.botToken, ec.channelID, msgText.didntUnderstand(ec, ec.text))
+          utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.didntUnderstand(ec, ec.text))
         );
       }
       catch (err) {

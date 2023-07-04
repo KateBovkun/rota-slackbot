@@ -210,6 +210,21 @@ const utils = {
     }
   },
   /**
+   * Config object for Slack messages in threads
+   * @param {string} botToken for Slack access
+   * @param {string} channelID to post message in
+   * @param {string} text message text
+   * @return {object} configuration object
+   */
+  msgConfigThread(botToken, channelID, messageTS, text) {
+    return {
+      token: botToken,
+      channel: channelID,
+      text: text,
+      thread_ts: messageTS
+    }
+  },
+  /**
    * Config object for Slack messages using block kit UI
    * @param {string} botToken for Slack access
    * @param {string} channelID to post message in
@@ -231,12 +246,13 @@ const utils = {
    * @param {string} text message text
    * @return {object} configuration object
    */
-  msgConfigEph(botToken, channelID, user, text) {
+  msgConfigEph(botToken, channelID, user, messageTS, text) {
     return {
       token: botToken,
       channel: channelID,
       user: user,
-      text: text
+      text: text,
+      thread_ts: messageTS
     }
   },
   /**
