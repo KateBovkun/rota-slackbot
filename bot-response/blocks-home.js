@@ -11,10 +11,10 @@ const homeBlocks = (userID, storeList) => {
     for (const rotation in storeList) {
       const thisRota = storeList[rotation];
       if (thisRota.assigned && thisRota.assigned.includes(userID)) {
-        results.assignments.push(thisRota.channel);
+        results.assignments.push("<#" + thisRota.channel + ">");
       }
       if (thisRota.staff && thisRota.staff.length && thisRota.staff.indexOf(`<@${userID}>`) > -1) {
-        results.staff.push(thisRota.channel);
+        results.staff.push("<#" + thisRota.channel + ">");
       }
     }
     return results;

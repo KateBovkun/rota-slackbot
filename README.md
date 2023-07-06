@@ -20,11 +20,11 @@ Goalie is a Slack app + bot I modified for internal company use to manage team r
 
 ## Tips
 
-Rota does **not** handle _message scheduling_ or _automate_ rotation assignments. But don't worry — since `@goalie` is a bot and not slash commands, it plays well with others! Here are some ways you can use the `@goalie` bot in conjunction with other Slack features / third party apps.
+Goalie does **not** handle _message scheduling_ or _automate_ rotation assignments. But don't worry — since `@goalie` is a bot and not slash commands, it plays well with others! Here are some ways you can use the `@goalie` bot in conjunction with other Slack features / third party apps.
 
 ### Rotation Reminders
 
-You can set a recurring reminder with Slack's `/remind` slash command to remind a rotation's on-call user to assign the next person in the rotation at some regular interval. This must be done at the channel level. You must ensure that Rota has been added to the channel you're setting the reminder in, also. For example:
+You can set a recurring reminder with Slack's `/remind` slash command to remind a rotation's on-call user to assign the next person in the rotation at some regular interval. This must be done at the channel level. You must ensure that Goalie has been added to the channel you're setting the reminder in, also. For example:
 
 _(With Goalie present in a #channel)_
 ```
