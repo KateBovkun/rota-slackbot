@@ -1,12 +1,12 @@
 /*------------------
   NEW
-  @goalie new [optional description]
+  @goalie new @{usergroup} [optional description]
   Creates a new rotation with description
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('new', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
     const description = pCmd.description;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
@@ -16,6 +16,7 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       );
     } else {
       // Initialize a new rotation with description
+      console.log("Rotation" + rotation);
       const save = await store.newRotation(rotation, description);
       const result = await app.client.chat.postMessage(
         utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.newConfirm(rotation))

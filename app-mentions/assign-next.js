@@ -1,12 +1,12 @@
 /*------------------
   ASSIGN NEXT
-  @goalie assign next [handoff message]
+  @goalie @{usergroup} assign next [handoff message]
   Assigns next user in staff list to rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('assign next', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
     const handoffMsg = pCmd.handoff;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
@@ -39,6 +39,11 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         // Send message to the channel about updated assignment
         const result = await app.client.chat.postMessage(
           utils.msgConfig(ec.botToken, ec.channelID, msgText.assignConfirm(usermention, rotation))
+        );
+        // Update usergroup
+        const userID = utils.getUserID(usermention)
+        await app.client.usergroups.users.update(
+          utils.groupUpdateConfig(ec.botToken, rotationObj.rotation, [userID])
         );
         if (!!handoffMsg) {
           // There is a handoff message

@@ -11,10 +11,10 @@ const homeBlocks = (userID, storeList) => {
     for (const rotation in storeList) {
       const thisRota = storeList[rotation];
       if (thisRota.assigned && thisRota.assigned.includes(userID)) {
-        results.assignments.push("<#" + thisRota.channel + ">");
+        results.assignments.push("<!subteam^" + thisRota.rotation + ">");
       }
       if (thisRota.staff && thisRota.staff.length && thisRota.staff.indexOf(`<@${userID}>`) > -1) {
-        results.staff.push("<#" + thisRota.channel + ">");
+        results.staff.push("<!subteam^" + thisRota.rotation + ">");
       }
     }
     return results;
@@ -119,14 +119,14 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": '```/remind [#channel] "@goalie #{channel} assign the next user in the rotation using `@goalie #{channel} assign next`" every Monday at 9am```'
+        "text": '```/remind #{channel} "@goalie @{usergroup} assign next" every Monday at 9am```'
       }
     },
     {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Note:* You can't _directly_ remind me to do something. For instance: `/remind @goalie #{channel} message in 5 minutes` will _not_ work because <@slackbot> isn't allowed to send reminders to <@goalie> — another _bot user_. When using `/remind`, you need to send the reminder _to a channel_. This ensures the message is delivered to the rotation's _assigned human user_."
+        "text": "*Note:* You can't _directly_ remind me to do something. For instance: `/remind @goalie @{usergroup} message in 5 minutes` will _not_ work because <@slackbot> isn't allowed to send reminders to <@goalie> — another _bot user_. When using `/remind`, you need to send the reminder _to a channel_. This ensures the message is delivered to the rotation's _assigned human user_."
       }
     },
     {
@@ -147,7 +147,7 @@ const homeBlocks = (userID, storeList) => {
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": '```/remind #{channel} "@goalie #{channel} I need some help with task XYZ please!"```'
+        "text": '```/remind #{channel} "@goalie @{usergroup} I need some help with task XYZ please!"```'
       }
     },
     {

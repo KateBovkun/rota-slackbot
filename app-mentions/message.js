@@ -1,6 +1,6 @@
 /*------------------
   (MESSAGE)
-  @goalie #{channel} free form message for on-call user
+  @goalie @{usergroup} free form message for on-call user
   Send message to on-call user via DM with link to channel
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {

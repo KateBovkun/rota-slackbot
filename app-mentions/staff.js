@@ -7,7 +7,7 @@
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('staff', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
     const staff = pCmd.staff;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {

@@ -1,12 +1,12 @@
 /*------------------
   UNASSIGN
-  @goalie unassign
+  @goalie @{usergroup} unassign
   Clears the assignment for a rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('unassign', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
       const rotationObj = await store.getRotation(rotation);
@@ -16,6 +16,10 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
         const save = await store.saveAssignment(rotation, null);
         const result = await app.client.chat.postMessage(
           utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.unassignConfirm(rotation))
+        );
+        // Update usergroup
+        await app.client.usergroups.users.update(
+          utils.groupUpdateConfig(ec.botToken, rotationObj.rotation, [])
         );
       } else {
         // If nobody is assigned

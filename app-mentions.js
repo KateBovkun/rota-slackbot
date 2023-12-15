@@ -59,43 +59,43 @@ const app_mentions = (app, store) => {
       !isUnassign &&
       !isDelete;
 
-    // @goalie new [optional description]
+    // @goalie new @{usergroup} [optional description]
     if (isNew) {
       cmdNew(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie description [new description]
+    // @goalie @{usergroup} description [new description]
     else if (isDescription) {
       cmdDescription(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie staff [@user @user @user]
+    // @goalie @{usergroup} staff [@user @user @user]
     else if (isStaff) {
       cmdStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie reset staff
+    // @goalie @{usergroup} reset staff
     else if (isResetStaff) {
       cmdResetStaff(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie delete
+    // @goalie @{usergroup} delete
     else if (isDelete) {
       cmdDelete(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie #[channel] about
+    // @goalie @{usergroup} about
     else if (isAbout) {
       cmdAbout(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie assign [@user] [handoff message]
+    // @goalie @{usergroup} assign [@user] [handoff message]
     else if (isAssign) {
       cmdAssign(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie assign next [handoff message]
+    // @goalie @{usergroup} assign next [handoff message]
     else if (isAssignNext) {
       cmdAssignNext(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie #[channel] who
+    // @goalie @{usergroup} who
     else if (isWho) {
       cmdWho(app, event, context, ec, utils, store, msgText, errHandler);
     }
-    // @goalie unassign
+    // @goalie @{usergroup} unassign
     else if (isUnassign) {
       cmdUnassign(app, event, context, ec, utils, store, msgText, errHandler);
     }
@@ -107,7 +107,7 @@ const app_mentions = (app, store) => {
     else if (isHelp) {
       cmdHelp(app, ec, utils, helpBlocks, msgText, errHandler);
     }
-    // @goalie #[channel] free form message for a goalie
+    // @goalie @{usergroup} free form message for a goalie
     else if (isMessage) {
       cmdMessage(app, event, context, ec, utils, store, msgText, errHandler);
     }

@@ -4,17 +4,18 @@ Goalie is a Slack app + bot I modified for internal company use to manage team r
 
 ## Commands
 
-* `@goalie new [description]` creates a new rotation for the channel. Technically the description is optional, but everyone will benefit if you provide one.
-* `@goalie delete` deletes the rotation completely (use with caution!).
-* `@goalie description [new description]` updates the description for a rotation.
-* `@goalie staff [@user1 @user2 @user3]` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
-* `@goalie reset staff` clears a rotation's staff list (use with caution!).
-* `@goalie assign [@user] [optional handoff message]` assigns someone to the rotation and, optionally, sends a DM to them with handoff information.
-* `@goalie assign next [optional handoff message]` assigns the next person in the staff list to a rotation and, optionally, sends a DM to them with handoff information.
-* `@goalie unassign` removes the current user assignment for a rotation.
-* `@goalie #[channel] who` reports the name of a rotation's assigned user.
-* `@goalie #[channel] about` displays the rotation's description and on-call user publicly, and displays the staff list only to the user who issued the commend (this is to prevent excessive notifications for everyone on staff).
-* `@goalie #[channel] [message]` sends a direct message to the on-call user for the rotation, notifying them that your message needs attention.
+* `@goalie new @{usergroup} [description]` creates a new rotation for the channel. Technically the description is optional, but everyone will benefit if you provide one.
+* `@goalie @{usergroup} delete` deletes the rotation completely (use with caution!).
+* `@goalie @{usergroup} description [new description]` updates the description for a rotation.
+* `@goalie @{usergroup} staff @user1, @user2, @user3, ...` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
+* `@goalie @{usergroup} reset staff` clears a rotation's staff list (use with caution!).
+* `@goalie @{usergroup} assign @{user} [optional handoff message]` assigns someone to the rotation and, optionally, sends a DM to them with handoff information.
+* `@goalie @{usergroup} assign next [optional handoff message]` assigns the next person in the staff list to a rotation and, optionally, sends a DM to them with handoff information.
+* `@goalie @{usergroup} unassign` removes the current user assignment for a rotation.
+* `@goalie @{usergroup} who` reports the name of a rotation's assigned user.
+* `@goalie @{usergroup} about` displays the rotation's description and goalie user publicly, and displays the staff list only to the user who issued the commend (this is to prevent excessive notifications for everyone on staff).
+* `@goalie @{usergroup} [message]` sends a direct message to the goalie user for the rotation, notifying them that your message needs attention. 
+* `@{usergroup}` notifies goalie.
 * `@goalie list` displays a list of all currently known rotations.
 * `@goalie help` shows how to use the bot.
 
@@ -28,7 +29,7 @@ You can set a recurring reminder with Slack's `/remind` slash command to remind 
 
 _(With Goalie present in a #channel)_
 ```
-/remind #[channel] "@goalie assign the next user in the rotation using `@goalie assign next"` every Monday at 9am
+/remind #{channel} "@goalie @{usergroup} assign next" every Monday at 9am
 ```
 
 Use quotes as shown in the snippet above to avoid unexpected behavior.
@@ -41,7 +42,7 @@ You can schedule messages to be delivered later. This is useful in case the goal
 
 _(In a #channel)_
 ```
-/remind #[channel] "@goalie #[channel] I need some help with task XYZ please"
+/remind #[channel] "@goalie #{usergroup} I need some help with task XYZ please"
 ```
 
 **Note:** Keep in mind that if you use `/remind`, the message will come from `@Slackbot`, _not from your username_. If you need the person on rotation to know the message was from _you_, either include your username in the reminder when you set it up, or use a third-party app that delivers the message later from your account (e.g., Gator does this).
@@ -55,7 +56,7 @@ _(In a #channel)_
 
 1. [Create a new Slack app](https://api.slack.com/apps/new).
 2. Name your app `goalie` and select your preferred development Slack workspace.
-3. In the **OAuth & Permissions** section, add "Bot Token Scopes" for `app_mentions:read`, `chat:write`, and `incoming-webhook`.
+3. In the **OAuth & Permissions** section, add "Bot Token Scopes" for `app_mentions:read`, `chat:write`, `usergroups:read`, `usergroups:write`, and `incoming-webhook`.
 4. Under **App Home**, make sure your bot and app's name are `goalie`.
   * Toggle on "Always Show My Bot as Online".
   * Enable the Home Tab.

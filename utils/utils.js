@@ -3,51 +3,51 @@
 ------------------*/
 const utils = {
   regex: {
-    // @goalie new [optional description]
+    // @goalie new @{usergroup} [optional description]
     // Create a new rotation
-    new: /^<@(U[A-Z0-9]+?)> (new)(.*)$/g,
-    // @goalie description [description]
+    new: /^<@(U[A-Z0-9]+?)> (new) <.*(S[A-Z0-9]+?)[|].*>(.*)$/g,
+    // @goalie @{usergroup} description [description]
     // Update description for an existing rotation
-    description: /^<@(U[A-Z0-9]+?)> (description)(.*)$/g,
-    // @goalie staff [@username, @username, @username]
+    description: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (description) (.*)$/g,
+    // @goalie @{usergroup} staff [@username, @username, @username]
     // Accepts a space-separated list of usernames to staff a rotation
     // List of mentions has to start with <@U and end with > but can contain spaces, commas, multiple user mentions
-    staff: /^<@(U[A-Z0-9]+?)> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
-    // @goalie reset staff
+    staff: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
+    // @goalie @{usergroup} reset staff
     // Removes rotation staff list
-    'reset staff': /^<@(U[A-Z0-9]+?)> (reset staff)$/g,
+    'reset staff': /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (reset staff)$/g,
     // Capture user ID only from
     // <@U03LKJ> or <@U0345|name>
     userID: /^<@([A-Z0-9]+?)[a-z|._\-]*?>$/g,
-    // @goalie assign [@username] [optional handoff message]
+    // @goalie @{usergroup} assign [@username] [optional handoff message]
     // Assigns a user to a rotation
-    assign: /^<@(U[A-Z0-9]+?)> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
-    // @goalie assign next [optional handoff message]
+    assign: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
+    // @goalie @{usergroup} assign next [optional handoff message]
     // Assigns a user to a rotation
-    'assign next': /^<@(U[A-Z0-9]+?)> (assign next)(.*)$/g,
-    // @goalie #{channel} who
+    'assign next': /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (assign next)(.*)$/g,
+    // @goalie @{usergroup} who
     // Responds stating who is on-call for a rotation
-    who: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (who)$/g,
-    // @goalie #{channel} about
+    who: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (who)$/g,
+    // @goalie @{usergroup} about
     // Responds with description and mention of on-call for a rotation
     // Sends ephemeral staff list (to save everyone's notifications)
-    about: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (about)$/g,
-    // @goalie unassign
+    about: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (about)$/g,
+    // @goalie @{usergroup} unassign
     // Unassigns rotation
-    unassign: /^<@(U[A-Z0-9]+?)> (unassign)$/g,
-    // @goalie delete
+    unassign: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (unassign)$/g,
+    // @goalie @{usergroup} delete
     // Removes the rotation completely
-    delete: /^<@(U[A-Z0-9]+?)> (delete)$/g,
+    delete: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (delete)$/g,
     // @goalie help
     // Post help messaging
     help: /^<@(U[A-Z0-9]+?)> (help)$/g,
     // @goalie list
     // List all rotations in store
     list: /^<@(U[A-Z0-9]+?)> (list)$/g,
-    // @goalie #{channel} any other message
+    // @goalie @{usergroup} any other message
     // Message does not contain a command
     // Sends message text
-    message: /^<@(U[A-Z0-9]+?)> <#([A-Z0-9\-]+?)> (.*)$/g
+    message: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (.*)$/g
   },
   /**
    * Clean up message text so it can be tested / parsed
@@ -79,7 +79,7 @@ const utils = {
    */
   rotationInList(rotaname, list) {
     if (list && list.length) {
-      return list.filter(rotation => rotation.channel === rotaname).length > 0;
+      return list.filter(rotation => rotation.rotation === rotaname).length > 0;
     }
     return false;
   },
@@ -113,16 +113,18 @@ const utils = {
       // Rotation, command, usermention, freeform text
       if (cmd === 'assign') {
         return {
-          command: res[2],
-          user: res[3],
-          handoff: res[4].trim()
+          rotation: res[2],
+          command: res[3],
+          user: res[4],
+          handoff: res[5].trim()
         }
       }
       // Rotation, command, freeform text
       else if (cmd === 'assign next') {
         return {
-          command: res[2],
-          handoff: res[3].trim()
+          rotation: res[2],
+          command: res[3],
+          handoff: res[4].trim()
         }
       }
       // Rotation, command, list of space-separated usermentions
@@ -137,14 +139,16 @@ const utils = {
           return cleanArr || [];
         };
         return {
-          command: res[2],
-          staff: getStaffArray(res[3])
+          rotation: res[2],
+          command: res[3],
+          staff: getStaffArray(res[4])
         }
       }
       // Rotation, command, parameters
       else if (cmd === 'new') {
-        const description = res[3];
+        const description = res[4];
         return {
+          rotation: res[3],
           command: res[2],
           description: description ? description.trim() : '(_no description provided_)'
         };
@@ -152,20 +156,23 @@ const utils = {
       // Command, rotation
       else if (cmd === 'delete') {
         return {
-          command: res[2]
+          rotation: res[2],
+          command: res[3]
         };
       }
       // Rotation, command
       else if (cmd === 'description') {
         return {
-          command: res[2],
-          description: res[3].trim()
+          rotation: res[2],
+          command: res[3],
+          description: res[4].trim()
         };
       }
       // Command
       else if (cmd === 'unassign' || cmd === 'reset staff') {
         return {
-          command: res[2]
+          rotation: res[2],
+          command: res[3]
         };
       }
       // Rotation Command
@@ -253,6 +260,20 @@ const utils = {
       user: user,
       text: text,
       thread_ts: messageTS
+    }
+  },
+  /**
+   * Config object for user group update Slack command
+   * @param {string} botToken for Slack access
+   * @param {string} groupID to update
+   * @param {array} users to be in the group
+   * @return {object} configuration object
+   */
+  groupUpdateConfig(botToken, groupID, users) {
+    return {
+      token: botToken,
+      usergroup: groupID,
+      users: users
     }
   },
   /**

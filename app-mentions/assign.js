@@ -1,12 +1,12 @@
 /*------------------
   ASSIGN
-  @goalie assign [@user] [handoff message]
+  @goalie @{usergroup} assign @{user} [handoff message]
   Assigns a user to specified rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('assign', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
     const usermention = pCmd.user;
     const handoffMsg = pCmd.handoff;
 
@@ -16,6 +16,11 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       // Confirm assignment in channel
       const result = await app.client.chat.postMessage(
         utils.msgConfig(ec.botToken, ec.channelID, msgText.assignConfirm(usermention, rotation))
+      );
+      // Update usergroup
+      const userID = utils.getUserID(usermention)
+      await app.client.usergroups.users.update(
+        utils.groupUpdateConfig(ec.botToken, rotation, [userID])
       );
       if (!!handoffMsg) {
         // Send DM to newly assigned user notifying them of the handoff message

@@ -1,12 +1,12 @@
 /*------------------
   DELETE
-  @goalie delete
+  @goalie @{usergroup} delete
   Deletes an existing rotation
 ------------------*/
 module.exports = async (app, event, context, ec, utils, store, msgText, errHandler) => {
   try {
     const pCmd = await utils.parseCmd('delete', event, context);
-    const rotation = ec.channelID;
+    const rotation = pCmd.rotation;
 
     if (utils.rotationInList(rotation, ec.rotaList)) {
       // If rotation exists, delete from store completely

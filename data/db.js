@@ -28,7 +28,7 @@ const store = {
     return Goalie.findOne({ name: rotaname }, (err) => {
       if (err) console.error(err.message);
       const rotation = new Goalie({
-        channel: rotaname,
+        rotation: rotaname,
         description: description,
         assigned: null
       });
@@ -45,7 +45,7 @@ const store = {
    * @return {object} newly updated, saved rotation
    */
   async updateDescription(rotaname, description) {
-    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ rotation: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.description = description;
       rotation.save((err) => {
@@ -61,7 +61,7 @@ const store = {
    * 
    */
   async saveStaff(rotaname, staffArr) {
-    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ rotation: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.staff = staffArr;
       rotation.save((err) => {
@@ -77,7 +77,7 @@ const store = {
    * @return {object} saved rotation with new assignment
    */
   async saveAssignment(rotaname, usermention) {
-    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ rotation: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.assigned = usermention;
       rotation.save((err) => {
@@ -92,7 +92,7 @@ const store = {
    * @return {object} rotation object
    */
   async getRotation(rotaname) {
-    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ rotation: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       return rotation;
     });
@@ -102,7 +102,7 @@ const store = {
    * @param {string} rotaname rotation name
    */
   async deleteRotation(rotaname) {
-    return Goalie.findOne({ channel: rotaname }, (err, rotation) => {
+    return Goalie.findOne({ rotation: rotaname }, (err, rotation) => {
       if (err) console.error(err.message);
       rotation.remove(err => {
         if (err) console.error(err.message);
