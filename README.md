@@ -7,7 +7,7 @@ Goalie is a Slack app + bot I modified for internal company use to manage team r
 * `@goalie new @{usergroup} [description]` creates a new rotation for the channel. Technically the description is optional, but everyone will benefit if you provide one.
 * `@goalie @{usergroup} delete` deletes the rotation completely (use with caution!).
 * `@goalie @{usergroup} description [new description]` updates the description for a rotation.
-* `@goalie @{usergroup} staff @user1, @user2, @user3, ...` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
+* `@goalie @{usergroup} staff @{user1}, @{user2}, @{user3}, ...` adds staff to a rotation; a space-separated list of usernames is expected as a parameter with usernames in the order of desired rotation (rotations with a staff list can be assigned using `assign next`).
 * `@goalie @{usergroup} reset staff` clears a rotation's staff list (use with caution!).
 * `@goalie @{usergroup} assign @{user} [optional handoff message]` assigns someone to the rotation and, optionally, sends a DM to them with handoff information.
 * `@goalie @{usergroup} assign next [optional handoff message]` assigns the next person in the staff list to a rotation and, optionally, sends a DM to them with handoff information.
@@ -34,7 +34,7 @@ _(With Goalie present in a #channel)_
 
 Use quotes as shown in the snippet above to avoid unexpected behavior.
 
-**Note:** You _can't_ directly remind the `@goalie` _bot_ to do anything. For instance, `/remind @goalie #[channel] some message in 5 minutes` will _not_ work because it will try to send a direct message to the _bot user_, not a rotation's _assigned human user_. Slack cannot do this, and it will tell you so. When using `/remind`, you need to set the reminder _in a channel_. Reminders come from Slackbot, and Goalie and Slackbot can't talk to each other.
+**Note:** You _can't_ directly remind the `@goalie` _bot_ to do anything. For instance, `/remind @goalie @{usergroup} some message in 5 minutes` will _not_ work because it will try to send a direct message to the _bot user_, not a rotation's _assigned human user_. Slack cannot do this, and it will tell you so. When using `/remind`, you need to set the reminder _in a channel_. Reminders come from Slackbot, and Goalie and Slackbot can't talk to each other.
 
 ### Scheduling Messages
 
@@ -42,7 +42,7 @@ You can schedule messages to be delivered later. This is useful in case the goal
 
 _(In a #channel)_
 ```
-/remind #[channel] "@goalie #{usergroup} I need some help with task XYZ please"
+/remind #{channel} "@goalie @{usergroup} I need some help with task XYZ please"
 ```
 
 **Note:** Keep in mind that if you use `/remind`, the message will come from `@Slackbot`, _not from your username_. If you need the person on rotation to know the message was from _you_, either include your username in the reminder when you set it up, or use a third-party app that delivers the message later from your account (e.g., Gator does this).
