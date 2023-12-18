@@ -16,7 +16,6 @@ module.exports = async (app, event, context, ec, utils, store, msgText, errHandl
       );
     } else {
       // Initialize a new rotation with description
-      console.log("Rotation" + rotation);
       const save = await store.newRotation(rotation, description);
       const result = await app.client.chat.postMessage(
         utils.msgConfigThread(ec.botToken, ec.channelID, ec.ts, msgText.newConfirm(rotation))

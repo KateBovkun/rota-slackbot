@@ -5,39 +5,39 @@ const utils = {
   regex: {
     // @goalie new @{usergroup} [optional description]
     // Create a new rotation
-    new: /^<@(U[A-Z0-9]+?)> (new) <.*(S[A-Z0-9]+?)[|].*>(.*)$/g,
+    new: /^<@(U[A-Z0-9]+?)> (new) <.*[\^](S[A-Z0-9]+?)[|].*>(.*)$/g,
     // @goalie @{usergroup} description [description]
     // Update description for an existing rotation
-    description: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (description) (.*)$/g,
+    description: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (description) (.*)$/g,
     // @goalie @{usergroup} staff [@username, @username, @username]
     // Accepts a space-separated list of usernames to staff a rotation
     // List of mentions has to start with <@U and end with > but can contain spaces, commas, multiple user mentions
-    staff: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
+    staff: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (staff) (<@U[<@>A-Z0-9,\s]+?>)$/g,
     // @goalie @{usergroup} reset staff
     // Removes rotation staff list
-    'reset staff': /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (reset staff)$/g,
+    'reset staff': /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (reset staff)$/g,
     // Capture user ID only from
     // <@U03LKJ> or <@U0345|name>
     userID: /^<@([A-Z0-9]+?)[a-z|._\-]*?>$/g,
     // @goalie @{usergroup} assign [@username] [optional handoff message]
     // Assigns a user to a rotation
-    assign: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
+    assign: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (assign) (<@U[A-Z0-9]+?>)(.*)$/g,
     // @goalie @{usergroup} assign next [optional handoff message]
     // Assigns a user to a rotation
-    'assign next': /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (assign next)(.*)$/g,
+    'assign next': /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (assign next)(.*)$/g,
     // @goalie @{usergroup} who
     // Responds stating who is on-call for a rotation
-    who: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (who)$/g,
+    who: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (who)$/g,
     // @goalie @{usergroup} about
     // Responds with description and mention of on-call for a rotation
     // Sends ephemeral staff list (to save everyone's notifications)
-    about: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (about)$/g,
+    about: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (about)$/g,
     // @goalie @{usergroup} unassign
     // Unassigns rotation
-    unassign: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (unassign)$/g,
+    unassign: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (unassign)$/g,
     // @goalie @{usergroup} delete
     // Removes the rotation completely
-    delete: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (delete)$/g,
+    delete: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (delete)$/g,
     // @goalie help
     // Post help messaging
     help: /^<@(U[A-Z0-9]+?)> (help)$/g,
@@ -47,7 +47,7 @@ const utils = {
     // @goalie @{usergroup} any other message
     // Message does not contain a command
     // Sends message text
-    message: /^<@(U[A-Z0-9]+?)> <.*(S[A-Z0-9]+?)[|].*> (.*)$/g
+    message: /^<@(U[A-Z0-9]+?)> <.*[\^](S[A-Z0-9]+?)[|].*> (.*)$/g
   },
   /**
    * Clean up message text so it can be tested / parsed
